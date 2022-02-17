@@ -8,10 +8,10 @@ import (
 )
 
 type Client struct {
-	client			* s3.S3
+	client *s3.S3
 }
 
-func CreateClient() (Client, error){
+func CreateClient() (Client, error) {
 	s3Client := services.S3Client()
 
 	c := Client{
@@ -23,9 +23,36 @@ func CreateClient() (Client, error){
 	return c, nil
 }
 
-func (t Client) GetBucketList() ([] s3.Bucket, error) {
+func (t Client) GetBucketObjects(bucketName string, key string) ([]s3.Object, error) {
+	lib := &s3.ListObjectsV2Input{
+		Bucket:              &bucketName,
+		Delimiter:           nil,
+		EncodingType:        nil,
+		ExpectedBucketOwner: nil,
+		MaxKeys:             nil,
+		Prefix:              &key,
+		RequestPayer:        nil,
+	}
+
+	out, err := t.client.ListObjectsV2(lib)
+	if err != nil {
+		return nil, err
+	}
+
+	var objects []s3.Object
+	for _, b := range out.Contents {
+		if kaws.DEBUG {
+			_ = fmt.Sprintf("object: %s \n", b.String())
+		}
+
+		objects = append(objects, *b)
+	}
+
+	return objects, err
+}
+
+func (t Client) GetBucketList() ([]s3.Bucket, error) {
 	lib := &s3.ListBucketsInput{}
-	//s3Client := *(&t.Client())
 
 	out, err := t.client.ListBuckets(lib)
 	if err != nil {
@@ -48,6 +75,6 @@ func (t Client) Client() *s3.S3 {
 	return t.client
 }
 
-func (t Client) SetClient(client * s3.S3) {
+func (t Client) SetClient(client *s3.S3) {
 	t.client = client
 }

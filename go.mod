@@ -5,7 +5,6 @@ go 1.17
 require (
 	github.com/aws/aws-sdk-go v1.42.13
 	github.com/kraneware/core-go v0.0.0-00010101000000-000000000000
-	github.com/kraneware/kinterface v0.0.1
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.17.0
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
