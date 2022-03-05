@@ -13,9 +13,13 @@ import (
 )
 
 const (
-	OneSecondTimeout = 1
-	Bucket1 = "bucket1"
-	Bucket2 = "bucket2"
+	Bucket1               = "bucket1"
+	Bucket1Key            = "test"
+	Bucket1ObjectContents = "test bucket 1 object contents"
+
+	Bucket2               = "bucket2"
+	Bucket2Key            = "test"
+	Bucket2ObjectContents = "test bucket 2 object contents"
 )
 
 var (
@@ -28,12 +32,27 @@ func createBuckets() error {
 	testCtx, td := services.NewTestDaemon()
 	defer td.Close()
 
-	err := localstack.NewS3Bucket(testCtx, Bucket2)
+	err := localstack.NewS3Bucket(testCtx, Bucket1)
 	if err != nil {
 		return err
 	}
 
-	return localstack.NewS3Bucket(testCtx, Bucket1)
+	err = localstack.NewS3Bucket(testCtx, Bucket2)
+	if err != nil {
+		return err
+	}
+
+	err = localstack.NewS3BucketObject(testCtx, Bucket1, Bucket1Key, []byte(Bucket1ObjectContents))
+	if err != nil {
+		return err
+	}
+
+	err = localstack.NewS3BucketObject(testCtx, Bucket2, Bucket2Key, []byte(Bucket2ObjectContents))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // BuildPlatformTestingInfrastructure builds the required infrastructure for testing with localstack
@@ -42,7 +61,11 @@ func BuildPlatformTestingInfrastructure() (err error) {
 
 	var errGroup errgroup.Group
 	errGroup.Go(createBuckets)
-	errGroup.Go(func() error { return os.Setenv("DATA_S3_BUCKET", Bucket1) })
+	errGroup.Go(
+		func() error {
+			return os.Setenv("DATA_S3_BUCKET", Bucket1)
+		},
+	)
 
 	return errGroup.Wait()
 }

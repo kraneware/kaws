@@ -61,20 +61,20 @@ var _ = Describe("Kaws/ks3 tests", func() {
 			Expect(bucketNames).Should(ContainElement(testsupport.Bucket1))
 			Expect(bucketNames).Should(ContainElement(testsupport.Bucket2))
 		})
+	})
 
-		Context("GetObjects() Test", func() {
-			It("should list bucket objects", func() {
-				Initialize()
-				objects, err := client.GetBucketObjects("bucket", "key")
+	Context("GetObjects() Test", func() {
+		It("should list bucket objects", func() {
+			Initialize()
+			objects, err := client.GetBucketObjects(testsupport.Bucket1, "test")
 
-				Expect(err).To(BeNil())
-				Expect(objects).To(Not(BeNil()))
-				Expect(objects).To(BeAssignableToTypeOf([]s3.Object{}))
+			Expect(err).To(BeNil())
+			Expect(objects).To(Not(BeNil()))
+			Expect(objects).To(BeAssignableToTypeOf([]s3.Object{}))
 
-				for _, v := range objects {
-					fmt.Sprintf("%v", v)
-				}
-			})
+			for _, v := range objects {
+				fmt.Sprintf("%v", v)
+			}
 		})
 	})
 })

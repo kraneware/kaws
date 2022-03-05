@@ -81,7 +81,7 @@ coverage-checks: coverage
 build: coverage-checks buildOnly
 
 buildOnly:
-	set -m # Enable Job Control #build all inner packages in loop  #build plugin .so at very end in root dir
+	set -m # Enable Job Control | build all inner packages in loop | build lib at very end in root dir
 	@for f in $(TEST_PACKAGES); do \
   		echo "processing dir $${f}"; \
   		dir=$${f}; \
