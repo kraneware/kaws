@@ -3,8 +3,8 @@ package ks3
 import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/kraneware/core-go/awsutil/services"
 	"github.com/kraneware/kaws"
+	"github.com/kraneware/kws/services"
 )
 
 type Client struct {

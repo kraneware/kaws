@@ -2,14 +2,13 @@ package testsupport
 
 import (
 	"fmt"
+	"github.com/kraneware/lokalstack"
 	"os"
 	"time"
 
-	"github.com/kraneware/core-go/awsutil/services"
+	"github.com/kraneware/kws/services"
 
 	"golang.org/x/sync/errgroup"
-
-	"github.com/kraneware/core-go/awsutil/localstack"
 )
 
 const (
@@ -32,22 +31,22 @@ func createBuckets() error {
 	testCtx, td := services.NewTestDaemon()
 	defer td.Close()
 
-	err := localstack.NewS3Bucket(testCtx, Bucket1)
+	err := lokalstack.NewS3Bucket(testCtx, Bucket1)
 	if err != nil {
 		return err
 	}
 
-	err = localstack.NewS3Bucket(testCtx, Bucket2)
+	err = lokalstack.NewS3Bucket(testCtx, Bucket2)
 	if err != nil {
 		return err
 	}
 
-	err = localstack.NewS3BucketObject(testCtx, Bucket1, Bucket1Key, []byte(Bucket1ObjectContents))
+	err = lokalstack.NewS3BucketObject(testCtx, Bucket1, Bucket1Key, []byte(Bucket1ObjectContents))
 	if err != nil {
 		return err
 	}
 
-	err = localstack.NewS3BucketObject(testCtx, Bucket2, Bucket2Key, []byte(Bucket2ObjectContents))
+	err = lokalstack.NewS3BucketObject(testCtx, Bucket2, Bucket2Key, []byte(Bucket2ObjectContents))
 	if err != nil {
 		return err
 	}
@@ -55,7 +54,7 @@ func createBuckets() error {
 	return nil
 }
 
-// BuildPlatformTestingInfrastructure builds the required infrastructure for testing with localstack
+// BuildPlatformTestingInfrastructure builds the required infrastructure for testing with lokalstack
 func BuildPlatformTestingInfrastructure() (err error) {
 	fmt.Println("Initializing Platform testing infrastructure ... ")
 

@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	environ [] string
+	environ     []string
 	s3persister S3Persister
 )
 
