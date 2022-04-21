@@ -1,10 +1,11 @@
-package ks3
+package ks3_test
 
 import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/kraneware/core-go/utils"
 	"github.com/kraneware/kaws"
+	"github.com/kraneware/kaws/ks3"
 	testsupport "github.com/kraneware/kaws/testingsupport"
 	_ "github.com/kraneware/kore-go/helper"
 	"github.com/kraneware/lokalstack"
@@ -17,7 +18,7 @@ import (
 
 var (
 	environ []string
-	client  Client
+	client  ks3.Client
 )
 
 func TestClient(t *testing.T) {
@@ -81,5 +82,5 @@ var _ = Describe("Kaws/ks3 tests", func() {
 })
 
 func Initialize() {
-	client, _ = CreateClient()
+	client, _ = ks3.CreateClient()
 }

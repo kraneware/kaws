@@ -12,6 +12,8 @@ replace github.com/kraneware/lokalstack => ../lokalstack
 
 require (
 	github.com/aws/aws-sdk-go v1.43.36
+	github.com/kraneware/core-go v0.1.0
+	github.com/kraneware/kinterface v0.0.0-00010101000000-000000000000
 	github.com/kraneware/kore-go v0.0.0-00010101000000-000000000000
 	github.com/kraneware/kws v0.0.0-20220409052145-a5e1f311bf31
 	github.com/kraneware/lokalstack v0.0.0-00010101000000-000000000000
@@ -29,6 +31,7 @@ require (
 	github.com/aws/aws-xray-sdk-go v1.6.0 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/containerd/continuity v0.2.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
@@ -38,14 +41,15 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.11.8 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
-	github.com/kraneware/core-go v0.1.0 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.2 // indirect
 	github.com/opencontainers/runc v1.0.3 // indirect
 	github.com/ory/dockertest v3.3.5+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.24.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
@@ -59,4 +63,5 @@ require (
 	google.golang.org/protobuf v1.26.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
