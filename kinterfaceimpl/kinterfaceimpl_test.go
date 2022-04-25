@@ -1,12 +1,13 @@
-package kinterfaceimpl
+package kinterfaceimpl_test
 
 import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/kraneware/core-go/awsutil/localstack"
-	"github.com/kraneware/core-go/utils"
 	"github.com/kraneware/kaws"
-	testsupport "github.com/kraneware/kaws/testingsupport"
+	"github.com/kraneware/kaws/kinterfaceimpl"
+	utils "github.com/kraneware/kore-go/helper"
+	localstack "github.com/kraneware/lokalstack"
+	"golang.org/x/sync/errgroup"
 	"os"
 	"testing"
 
@@ -14,14 +15,21 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+const (
+	Bucket1               = "bucket1"
+	Bucket1Key            = "test"
+	Bucket1ObjectContents = "test bucket 1 object contents"
+)
+
 var (
-	environ     []string
-	s3persister S3Persister
+	environ       []string
+	s3persister   kinterfaceimpl.S3Persister
+	secretskeeper kinterfaceimpl.Skeeper
 )
 
 func TestClient(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Kaws/s3 Test Suite")
+	RunSpecs(t, "kinterfaceimpl Test Suite")
 }
 
 var _ = BeforeSuite(func() {
@@ -34,7 +42,7 @@ var _ = BeforeSuite(func() {
 	}
 
 	Expect(localstack.StartContainer()).Should(BeNil())
-	Expect(testsupport.BuildPlatformTestingInfrastructure()).Should(BeNil())
+	Expect(buildTestingInfrastructure()).Should(BeNil())
 })
 
 var _ = AfterSuite(func() {
@@ -45,7 +53,7 @@ var _ = AfterSuite(func() {
 var _ = Describe("Kaws/s3 tests", func() {
 	Context("CreatePersister() Test", func() {
 		It("should create the  s3 persister", func() {
-			p, err := CreatePersister(kaws.Name, kaws.Id)
+			p, err := kinterfaceimpl.CreatePersister(kaws.Name, kaws.Id)
 
 			Expect(err).To(BeNil())
 			Expect(p).Should(Not(BeNil()))
@@ -112,5 +120,37 @@ var _ = Describe("Kaws/s3 tests", func() {
 })
 
 func Initialize() {
-	s3persister, _ = CreatePersister(kaws.Name, kaws.Id)
+	s3persister, _ = kinterfaceimpl.CreatePersister(kaws.Name, kaws.Id)
+}
+
+// buildPlatformTestingInfrastructure builds the required infrastructure for testing with lokalstack
+func buildTestingInfrastructure() (err error) {
+	fmt.Println("initializing testing infrastructure ... ")
+
+	var errGroup errgroup.Group
+	errGroup.Go(createBuckets)
+	errGroup.Go(
+		func() error {
+			return os.Setenv("DATA_S3_BUCKET", Bucket1)
+		},
+	)
+
+	return errGroup.Wait()
+}
+
+func createBuckets() error {
+	testCtx, td := localstack.NewTestDaemon()
+	defer td.Close()
+
+	err := localstack.NewS3Bucket(testCtx, Bucket1)
+	if err != nil {
+		return err
+	}
+
+	err = localstack.NewS3BucketObject(testCtx, Bucket1, Bucket1Key, []byte(Bucket1ObjectContents))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

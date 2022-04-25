@@ -31,7 +31,7 @@ init: clean
 	@mkdir target/tools
 
 deps: init
-	go env GOPRIVATE=github.com/kraneware/* GOOS=darwin build -v ./...
+	go env GOPRIVATE=github.com/kraneware/* build -v ./...
 
 displayvars:
 	@for package in $(TEST_PACKAGES); do \
@@ -54,7 +54,7 @@ test: init
 	  if [ "$${PIPESTATUS[0]}" -ne "0" ]; then exit 1; fi; \
 	  grep "FAIL!" ${CURDIR}/target/testing/$$package/target.txt ; \
 	  if [ "$$?" -ne "1" ]; then exit 1; fi; \
-	  cat ${CURDIR}/target/testing/$$package/coverage.out >> ${CURDIR}/target/coverage_profile.out ; \
+	  #cat ${CURDIR}/target/testing/$$package/coverage.out >> ${CURDIR}/target/coverage_profile.out ; \
 	done
 
 coverage: test
@@ -85,7 +85,7 @@ buildOnly:
 	@for f in $(TEST_PACKAGES); do \
   		echo "processing dir $${f}"; \
   		dir=$${f}; \
-		cd $${dir} && env GOPRIVATE=github.com/kraneware/* GOOS=darwin go build && cd ..; \
+		cd $${dir} && env GOPRIVATE=github.com/kraneware/* go build && cd ..; \
 		if [ $$? -ne 0 ]; then \
   		  	echo "exiting on go build error: $$? "; \
   			exit 1; \
@@ -93,5 +93,5 @@ buildOnly:
 	done; \
 	wait < <(jobs -p); \
 	echo "processing root dir (.) for executable build"; \
-	env GOPRIVATE=github.com/kraneware/* GOOS=darwin go build; \
+	env GOPRIVATE=github.com/kraneware/* go build; \
 	echo "Executable build successful ;)";
