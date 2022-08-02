@@ -2,11 +2,10 @@ package testsupport
 
 import (
 	"fmt"
-	"github.com/kraneware/lokalstack"
 	"os"
 	"time"
 
-	"github.com/kraneware/kws/services"
+	"github.com/kraneware/lokalstack"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -28,7 +27,7 @@ var (
 )
 
 func createBuckets() error {
-	testCtx, td := services.NewTestDaemon()
+	testCtx, td := lokalstack.NewTestDaemon()
 	defer td.Close()
 
 	err := lokalstack.NewS3Bucket(testCtx, Bucket1)

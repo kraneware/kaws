@@ -2,6 +2,7 @@ package ks3
 
 import (
 	"fmt"
+
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/kraneware/kaws"
 	"github.com/kraneware/kws/services"

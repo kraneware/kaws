@@ -50,7 +50,7 @@ test: init
 	  echo Testing package $$package ; \
 	  cd $(CURDIR)/$$package ; \
 	  mkdir ${CURDIR}/target/testing/$$package ; \
-	  ginkgo -r -race -covermode=atomic -coverprofile ${CURDIR}/target/testing/$$package/coverage.out | tee ${CURDIR}/target/testing/$$package/target.txt ; \
+	  go test -v -race -covermode=atomic -coverprofile ${CURDIR}/target/testing/$$package/coverage.out | tee ${CURDIR}/target/testing/$$package/target.txt ; \
 	  if [ "$${PIPESTATUS[0]}" -ne "0" ]; then exit 1; fi; \
 	  grep "FAIL!" ${CURDIR}/target/testing/$$package/target.txt ; \
 	  if [ "$$?" -ne "1" ]; then exit 1; fi; \

@@ -2,6 +2,9 @@ package ks3_test
 
 import (
 	"fmt"
+	"os"
+	"testing"
+
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/kraneware/core-go/utils"
 	"github.com/kraneware/kaws"
@@ -9,8 +12,6 @@ import (
 	testsupport "github.com/kraneware/kaws/testingsupport"
 	_ "github.com/kraneware/kore-go/helper"
 	"github.com/kraneware/lokalstack"
-	"os"
-	"testing"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

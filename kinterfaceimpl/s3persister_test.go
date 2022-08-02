@@ -2,13 +2,14 @@ package kinterfaceimpl
 
 import (
 	"fmt"
+	"os"
+	"testing"
+
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/kraneware/core-go/awsutil/localstack"
 	"github.com/kraneware/core-go/utils"
 	"github.com/kraneware/kaws"
 	testsupport "github.com/kraneware/kaws/testingsupport"
-	"os"
-	"testing"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
